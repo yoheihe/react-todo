@@ -18,13 +18,14 @@ function BasicExample() {
       <div>
         <Button variant="info">新規追加</Button>
       </div>
-
+      <div class="center-block">
+        
       <Row>
         <Col>samples</Col>
       </Row>
-
-      <div className='toDO'>
-        <p1>samples samples samples</p1>
+   
+      <div>
+        <p class="text-right">samples samples samples</p>
         <Button variant="primary" size="sm">
           編集
         </Button>{' '}
@@ -34,6 +35,7 @@ function BasicExample() {
       </div>
       <div>
         <p1>samples samples samples</p1>
+  
         <Button  className="edit-button" variant="primary" size="sm">
           編集
         </Button>{' '}
@@ -58,6 +60,7 @@ function BasicExample() {
         <Button variant="danger" size="sm">
           削除
         </Button>
+      </div>
       </div>
     </section>
 
