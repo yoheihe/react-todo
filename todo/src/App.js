@@ -13,7 +13,7 @@ function BasicExample() {
   const [addText, setAddText] = useState(''); // 新規ボタンクリック時のテキストの値を管理
   const [isSaveButtonVisible, setIsSaveButtonVisible] = useState(true); // 保存ボタンの表示状態を管理
   const [errorMessage, setErrorMessage] = useState(''); // 新規追加時のエラーメッセージの状態を管理
-  const [errorModalMessage, setModalErrorMessage] = useState(''); // 新規追加時のエラーメッセージの状態を管理
+  const [errorModalMessage, setModalErrorMessage] = useState(''); // 保存時のエラーメッセージの状態を管理
 
   // 新規追加ボタンクリック時の動作
   const onClickAdd = () => {
