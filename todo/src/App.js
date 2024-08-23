@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'; // BootstrapのCSSをインポート
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button'; // React BootstrapのButtonコンポーネントをインポート
+import Button from 'react-bootstrap/Button'; // React BootstrapのButtonコンポーネントをインポートo
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Modal from 'react-bootstrap/Modal';
