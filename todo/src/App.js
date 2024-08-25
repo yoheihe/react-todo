@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button'; // React BootstrapのButtonコンポーネントをインポートo
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import Modal from 'react-bootstrap/Modal';
+import EditModal from './components/EditModal'; // EditModalコンポーネントをインポート
 
 function BasicExample() {
   const [contents, setContents] = useState([]);
@@ -55,6 +55,7 @@ function BasicExample() {
     setSelectedContentId(id); // 編集対象のコンテンツIDをセット
     setEditedText(addText); // 現在のテキストをフォームにセット
     setIsSaveButtonVisible(true); // 初期状態でボタンの表示状態を設定
+    setModalErrorMessage(""); // モーダル内のエラーメッセージをクリア
     setShowModal(true); // モーダルを表示
   };
 
@@ -110,7 +111,6 @@ function BasicExample() {
     const newText = e.target.value;
     setEditedText(newText);
     if (newText !== "") {
-      setIsSaveButtonVisible(true); // テキストボックスに値がある場合はボタンを表示
       setModalErrorMessage(''); // エラーメッセージをクリア
     }
   };
@@ -141,32 +141,17 @@ function BasicExample() {
             {content.content}
           </div>
         ))}
-      </div>
-      <Modal show={showModal} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>編集</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-          <input
-            type="text"
-            value={editedText}
-            onChange={handleChange} // onChangeでテキストを更新
-          />
-          {errorModalMessage && <p style={{ color: 'red', marginTop: '5px' }}>{errorModalMessage}</p>} {/* エラーメッセージを表示 */}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            閉じる
-          </Button>
-          {isSaveButtonVisible && (
-            <Button variant="primary" onClick={handleSave}>
-              保存
-            </Button>
-          )}
-        </Modal.Footer>
-      </Modal>
+         </div>
+              <EditModal
+        showModal={showModal}
+        handleClose={handleClose}
+        editedText={editedText}
+        handleChange={handleChange}
+        handleSave={handleSave}
+        isSaveButtonVisible={isSaveButtonVisible}
+        errorModalMessage={errorModalMessage}
+      />
+
     </section>
   );
 }
