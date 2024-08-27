@@ -27,9 +27,9 @@ function BasicExample() {
       content: (
         <div style={{ position: 'relative', margin: '0 auto', display: 'flex', borderTop: '1px solid #000', alignItems: 'center' }} key={id}>
           <div style={{ padding: '10px', flexGrow: 1 }}>
-            <p style={{ margin: 0 }}>{addText}</p> 
+            <p style={{ margin: 0 }}>{addText}</p>
           </div>
-          <div style={{ position: 'absolute', right: '10px', top: '10px'  }}>
+          <div style={{ position: 'absolute', right: '10px', top: '10px' }}>
             <Button variant="primary" size="sm" onClick={() => handleEdit(id)}>
               編集
             </Button>{' '}
@@ -70,7 +70,7 @@ function BasicExample() {
       return;
     }
     setContents(prevContents =>
-      prevContents.map(content => 
+      prevContents.map(content =>
         content.id === selectedContentId
           ? {
             ...content,
@@ -97,13 +97,13 @@ function BasicExample() {
     setModalErrorMessage(''); // エラーメッセージをクリア
   };
 
-    // 新規追加時のテキストボックスの入力に応じてエラーメッセージをクリア
-    const handleAddTextChange = (e) => {
-      setAddText(e.target.value);
-      if (e.target.value !== "") {
-        setErrorMessage(''); // テキストボックスに値がある場合はエラーメッセージをクリア
-      }
-    };
+  // 新規追加時のテキストボックスの入力に応じてエラーメッセージをクリア
+  const handleAddTextChange = (e) => {
+    setAddText(e.target.value);
+    if (e.target.value !== "") {
+      setErrorMessage(''); // テキストボックスに値がある場合はエラーメッセージをクリア
+    }
+  };
 
 
   // テキストボックスの入力に応じて保存ボタンの表示状態を更新
@@ -124,15 +124,15 @@ function BasicExample() {
       </Navbar>
       <div style={{ paddingTop: '10px', paddingBottom: '10px', marginBottom: '20px', width: '700px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ width: '50%' }}>
-          <input 
+          <input
             type='text'
             value={addText}
             onChange={handleAddTextChange} // 新規追加時のテキストボックス変更に応じた処理
-            style={{ width: '100%', marginRight: '10px' }}  
+            style={{ width: '100%', marginRight: '10px' }}
           />
           {errorMessage && <p style={{ color: 'red', marginTop: '5px' }}>{errorMessage}</p>} {/* エラーメッセージを表示 */}
         </div>
-        <Button onClick={onClickAdd} variant="info">新規追加</Button>  
+        <Button onClick={onClickAdd} variant="info">新規追加</Button>
       </div>
       <div style={{ margin: '0 auto', border: '1px solid #000', borderRadius: '5px', width: '700px', overflow: 'hidden' }}>
         <div style={{ padding: '10px', backgroundColor: '#f5f5f5' }}>Todos</div>
@@ -141,14 +141,21 @@ function BasicExample() {
             {content.content}
           </div>
         ))}
-         </div>
-              <EditModal
+      </div>
+      <EditModal
+        //モーダルが表示されているかどうかを制御。trueの場合、モーダルが表示され、falseの場合は非表示
         showModal={showModal}
+        //モーダルの閉じるボタンが押下時に呼び出し
         handleClose={handleClose}
+        //モーダル内のテキストボックスの値を管理
         editedText={editedText}
+        //モーダル内のテキストボックスの値が変更された時に呼び出される関数。新しいテキストの値をeditedTextに反映
         handleChange={handleChange}
+        //編集内容を保存する関数。保存ボタンがクリックされたと時に呼び出される
         handleSave={handleSave}
+        //保存ボタンの表示・非表示を制御。trueの場合、保存ボタンを表示、falseの場合は非表示
         isSaveButtonVisible={isSaveButtonVisible}
+        //モーダル内のテキストボックスが未入力の時、エラーメッセージを表示
         errorModalMessage={errorModalMessage}
       />
 
