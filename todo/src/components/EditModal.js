@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function EditModal({
+  //分割代入により、それぞれ必要なタイミングで親コンポーネントから値を取り出す
   showModal, 
   handleClose, 
   editedText, 
