@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'; // BootstrapのCSSをインポート
 import React, { useState } from 'react';
+import './App.css';
 import Button from 'react-bootstrap/Button'; // React BootstrapのButtonコンポーネントをインポート
 import Container from 'react-bootstrap/Container'; // React BootstrapのContainerコンポーネントをインポート
 import Navbar from 'react-bootstrap/Navbar'; // React BootstrapのNavbarコンポーネントをインポート
@@ -25,11 +26,11 @@ function BasicExample() {
     const newContent = {
       id,
       content: (
-        <div style={{ position: 'relative', margin: '0 auto', display: 'flex', borderTop: '1px solid #000', alignItems: 'center' }} key={id}>
-          <div style={{ padding: '10px', flexGrow: 1 }}>
-            <p style={{ margin: 0 }}>{addText}</p>
+        <div className="todo-item" key={id}>
+          <div className="todo-text">
+            <p className="todo-paragraph">{addText}</p>
           </div>
-          <div style={{ position: 'absolute', right: '10px', top: '10px' }}>
+          <div className="todo-buttons">
             <Button variant="primary" size="sm" onClick={() => handleEdit(id)}>
               編集
             </Button>{' '}
@@ -52,11 +53,11 @@ function BasicExample() {
 
   // 編集ボタンクリック時の動作
   const handleEdit = (id) => {
+    setShowModal(true); // モーダルを表示
     setSelectedContentId(id); // 編集対象のコンテンツIDをセット
     setEditedText(addText); // 現在のテキストをフォームにセット
     setIsSaveButtonVisible(true); // 初期状態でボタンの表示状態を設定
     setModalErrorMessage(""); // モーダル内のエラーメッセージをクリア
-    setShowModal(true); // モーダルを表示
   };
 
   // モーダルを閉じる
@@ -73,23 +74,23 @@ function BasicExample() {
       prevContents.map(content =>
         content.id === selectedContentId
           ? {
-            ...content,
-            content: (
-              <div style={{ position: 'relative', margin: '0 auto', display: 'flex', borderTop: '1px solid #000', alignItems: 'center' }} key={content.id}>
-                <div style={{ padding: '10px', flexGrow: 1 }}>
-                  <p style={{ margin: 0 }}>{editedText}</p>
+              ...content,
+              content: (
+                <div className="todo-item" key={content.id}>
+                  <div className="todo-text">
+                    <p className="todo-paragraph">{editedText}</p>
+                  </div>
+                  <div className="todo-buttons">
+                    <Button variant="primary" size="sm" onClick={() => handleEdit(content.id)}>
+                      編集
+                    </Button>{' '}
+                    <Button onClick={() => handleDelete(content.id)} variant="danger" size="sm">
+                      削除
+                    </Button>
+                  </div>
                 </div>
-                <div style={{ position: 'absolute', right: '10px', top: '10px' }}>
-                  <Button variant="primary" size="sm" onClick={() => handleEdit(content.id)}>
-                    編集
-                  </Button>{' '}
-                  <Button onClick={() => handleDelete(content.id)} variant="danger" size="sm">
-                    削除
-                  </Button>
-                </div>
-              </div>
-            )
-          }
+              )
+            }
           : content
       )
     );
@@ -105,37 +106,37 @@ function BasicExample() {
     }
   };
 
-
   // テキストボックスの入力に応じて保存ボタンの表示状態を更新
   const handleChange = (e) => {
     const newText = e.target.value;
     setEditedText(newText);
     if (newText !== "") {
       setModalErrorMessage(''); // エラーメッセージをクリア
+      setIsSaveButtonVisible(true); 
     }
   };
 
   return (
     <section>
-      <Navbar style={{ width: '700px', margin: '0 auto' }} expand="lg" className="bg-body-tertiary">
-        <Container style={{ height: '70px', backgroundColor: '#66ccff' }}>
+      <Navbar className="custom-navbar bg-body-tertiary" expand="lg">
+        <Container className="navbar-container">
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
         </Container>
       </Navbar>
-      <div style={{ paddingTop: '10px', paddingBottom: '10px', marginBottom: '20px', width: '700px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ width: '50%' }}>
+      <div className="add-section">
+        <div className="input-container">
           <input
             type='text'
             value={addText}
             onChange={handleAddTextChange} // 新規追加時のテキストボックス変更に応じた処理
-            style={{ width: '100%', marginRight: '10px' }}
+            className="add-input"
           />
-          {errorMessage && <p style={{ color: 'red', marginTop: '5px' }}>{errorMessage}</p>} {/* エラーメッセージを表示 */}
+          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* エラーメッセージを表示 */}
         </div>
         <Button onClick={onClickAdd} variant="info">新規追加</Button>
       </div>
-      <div style={{ margin: '0 auto', border: '1px solid #000', borderRadius: '5px', width: '700px', overflow: 'hidden' }}>
-        <div style={{ padding: '10px', backgroundColor: '#f5f5f5' }}>Todos</div>
+      <div className="todos-container">
+        <div className="todos-header">Todos</div>
         {contents.map((content) => (
           <div key={content.id}>
             {content.content}
@@ -143,22 +144,21 @@ function BasicExample() {
         ))}
       </div>
       <EditModal
-        //モーダルが表示されているかどうかを制御。trueの場合、モーダルが表示され、falseの場合は非表示
+        // モーダルが表示されているかどうかを制御。trueの場合、モーダルが表示され、falseの場合は非表示
         showModal={showModal}
-        //モーダルの閉じるボタンが押下時に呼び出し
+        // モーダルの閉じるボタンが押下時に呼び出し
         handleClose={handleClose}
-        //モーダル内のテキストボックスの値を管理
+        // モーダル内のテキストボックスの値を管理
         editedText={editedText}
-        //モーダル内のテキストボックスの値が変更された時に呼び出される関数。新しいテキストの値をeditedTextに反映
+        // モーダル内のテキストボックスの値が変更された時に呼び出される関数。新しいテキストの値をeditedTextに反映
         handleChange={handleChange}
-        //編集内容を保存する関数。保存ボタンがクリックされたと時に呼び出される
+        // 編集内容を保存する関数。保存ボタンがクリックされたと時に呼び出される
         handleSave={handleSave}
-        //保存ボタンの表示・非表示を制御。trueの場合、保存ボタンを表示、falseの場合は非表示
+        // 保存ボタンの表示・非表示を制御。trueの場合、保存ボタンを表示、falseの場合は非表示
         isSaveButtonVisible={isSaveButtonVisible}
-        //モーダル内のテキストボックスが未入力の時、エラーメッセージを表示
+        // モーダル内のテキストボックスが未入力の時、エラーメッセージを表示
         errorModalMessage={errorModalMessage}
       />
-
     </section>
   );
 }

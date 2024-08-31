@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import './EditModal.css'; // EditModal専用のCSSを作成する場合
 
 function EditModal({
-  //分割代入により、それぞれ必要なタイミングで親コンポーネントから値を取り出す
   showModal, 
   handleClose, 
   editedText, 
@@ -22,9 +22,10 @@ function EditModal({
           <input
             type="text"
             value={editedText}
-            onChange={handleChange} // onChangeでテキストを更新
+            onChange={handleChange}
+            className="edit-modal-input"
           />
-          {errorModalMessage && <p style={{ color: 'red', marginTop: '5px' }}>{errorModalMessage}</p>} {/* エラーメッセージを表示 */}
+          {errorModalMessage && <p className="error-message">{errorModalMessage}</p>}
         </div>
       </Modal.Body>
       <Modal.Footer>
