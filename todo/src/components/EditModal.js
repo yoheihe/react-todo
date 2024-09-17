@@ -12,6 +12,12 @@ function EditModal({
   isSaveButtonVisible, 
   errorModalMessage
 }) {
+    // Enterキーが押されたときにhandleSaveを実行
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        handleSave();
+      }
+    };
   return (
     <Modal show={showModal} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -23,6 +29,7 @@ function EditModal({
             type="text"
             value={editedText}
             onChange={handleChange}
+            onKeyDown={handleKeyDown} 
             className="edit-modal-input"
           />
           {errorModalMessage && <p className="error-message">{errorModalMessage}</p>}

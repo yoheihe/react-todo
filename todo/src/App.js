@@ -2,9 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // BootstrapのCSSをインポー
 import React, { useState } from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button'; // React BootstrapのButtonコンポーネントをインポート
-import Container from 'react-bootstrap/Container'; // React BootstrapのContainerコンポーネントをインポート
+import Container from 'react-bootstrap/Container'; // React BootstrapのContainerコンポーネントをインポーレート
 import Navbar from 'react-bootstrap/Navbar'; // React BootstrapのNavbarコンポーネントをインポート
-import EditModal from './components/EditModal'; // EditModalコンポーネントをインポート
+import EditModal from './components/EditModal'; // 分離したEditModalコンポーネントをインポート
 
 function BasicExample() {
   const [contents, setContents] = useState([]);
@@ -53,11 +53,18 @@ function BasicExample() {
 
   // 編集ボタンクリック時の動作
   const handleEdit = (id) => {
+    console.log('OK');
     setShowModal(true); // モーダルを表示
-    setSelectedContentId(id); // 編集対象のコンテンツIDをセット
-    setEditedText(addText); // 現在のテキストをフォームにセット
-    setIsSaveButtonVisible(true); // 初期状態でボタンの表示状態を設定
-    setModalErrorMessage(""); // モーダル内のエラーメッセージをクリア
+    const contentToEdit = contents.find(content => content.id === id);
+    if (contentToEdit) {
+      // JSXからテキストを取得する方法
+      const textToEdit = contentToEdit.content.props.children[0].props.children.props.children;
+      setSelectedContentId(id); // 編集対象のコンテンツIDをセット
+      setEditedText(textToEdit); // 編集用テキストをセット
+      setIsSaveButtonVisible(true); // 初期状態でボタンの表示状態を設定
+      setModalErrorMessage(""); // モーダル内のエラーメッセージをクリア
+
+    }
   };
 
   // モーダルを閉じる
@@ -112,9 +119,16 @@ function BasicExample() {
     setEditedText(newText);
     if (newText !== "") {
       setModalErrorMessage(''); // エラーメッセージをクリア
-      setIsSaveButtonVisible(true); 
     }
   };
+
+  // エンターキーを押したときにonClickAddを呼び出す
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      onClickAdd();
+    }
+  };
+  
 
   return (
     <section>
@@ -129,12 +143,13 @@ function BasicExample() {
             type='text'
             value={addText}
             onChange={handleAddTextChange} // 新規追加時のテキストボックス変更に応じた処理
+            onKeyPress={handleKeyPress} // エンターキー押下時にonClickAddを呼び出す
             className="add-input"
           />
-          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* エラーメッセージを表示 */}
         </div>
         <Button onClick={onClickAdd} variant="info">新規追加</Button>
       </div>
+      {errorMessage && <p className="error-message">{errorMessage}</p>} {/* エラーメッセージを表示 */}
       <div className="todos-container">
         <div className="todos-header">Todos</div>
         {contents.map((content) => (
